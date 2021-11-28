@@ -1,0 +1,14 @@
+pm_api_url = ""
+pm_user = ""
+pm_password = ""
+pm_tls_insecure = false
+ssh_key = { 
+    public = "ssh-ed25519 AAAA...."
+    private = <<-EOF
+-----BEGIN OPENSSH PRIVATE KEY-----
+...
+-----END OPENSSH PRIVATE KEY-----
+  EOF
+}
+vm_template = ""
+vm_user = ""

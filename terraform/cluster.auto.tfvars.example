@@ -1,0 +1,6 @@
+controlplane_count = 0
+controlplane_cores = 0
+controlplane_memory = 0
+worker_count = 0
+worker_cores = 0
+worker_memory = 0
