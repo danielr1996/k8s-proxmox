@@ -3,7 +3,7 @@ Combination of terraform and ansible scripts to automatically provision a highly
 
 > This is still a work a progress, currently vms can be automatically created and provisioned through terraform, however the `kubeadm init` and `kubeadm join` commands need to be executed manually
 
-> Audience:
+> Audience: This is not a turnkey solution to setup a kubernetes cluster nor should it be used as production deployment. While most aspects are automated and most decisions are already made for you it might still me necessary to adjust the settings depending on your specific environment. Therefore knowledge on how to use `terraform`, `ansible` and `kubeadm` is not strictly required but highly recommended. Refers to the links at the bottom for additional resources.
 
 ## Usage
 For a batteries included solution a `Vagrantfile` is included which has terraform and ansible installed and configured. 

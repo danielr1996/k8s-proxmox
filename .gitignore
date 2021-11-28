@@ -1,0 +1,8 @@
+.vagrant
+terraform/.terraform.lock.hcl
+terraform/.terraform
+terraform/terraform.tfstate
+terraform/terraform.tfstate.backup
+terraform/user.auto.tfvars
+ansible/ssh_key_terraform
+ansible/ssh_key
