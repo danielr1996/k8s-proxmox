@@ -69,3 +69,7 @@ Check if your node meets the requirements
 ```
 kubeadm init phase preflight
 ```
+
+To join worker and controlplane nodes afterward see [https://stackoverflow.com/questions/51126164/how-do-i-find-the-join-command-for-kubeadm-on-the-master](https://stackoverflow.com/questions/51126164/how-do-i-find-the-join-command-for-kubeadm-on-the-master)
+
+Remember to also pass `--apiserver-bind-port=8443`
