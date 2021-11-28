@@ -1,0 +1,5 @@
+files:
+  - name: 00-cgroup-systemd.conf
+    dir: /etc/systemd/system/docker.service.d
+  - name: sysctl.conf
+    dir: /etc

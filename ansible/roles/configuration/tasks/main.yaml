@@ -1,0 +1,13 @@
+- name: Ensure directory {{item.dest}} exists
+  become: yes
+  file:
+    path: "{{item.dir}}"
+    state: directory
+  loop: "{{files}}"
+
+- name: Ensure configuration {{item.src}} is present
+  become: yes
+  ansible.builtin.template:
+    src: "{{item.name}}"
+    dest: "{{item.dir}}/{{item.name}}"
+  loop: "{{files}}"

@@ -1,0 +1,21 @@
+- name: "ensure key {{item}} is present"
+  become: yes
+  ansible.builtin.apt_key:
+    id: "{{item.id}}"
+    url: "{{item.url}}"
+    state: present
+  loop: "{{packages | map(attribute='apt_key')}}"
+
+- name: "ensure repository {{item}} is present"
+  become: yes
+  ansible.builtin.apt_repository:
+    repo: "{{item}}"
+    state: present
+  loop: "{{packages | map(attribute='apt_repository')}}"
+
+- name: "ensure package {{item}} is installed"
+  become: yes
+  apt:
+    name: "{{item}}"
+    state: present
+  loop: "{{packages | map(attribute='packages') | flatten}}"

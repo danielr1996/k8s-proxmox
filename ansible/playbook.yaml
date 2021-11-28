@@ -1,0 +1,20 @@
+---
+- hosts: 127.0.0.1
+  pre_tasks:
+    - name: convert ssh_key from CRLF to LF line endings
+      template:
+        src: ./ssh_key_terraform
+        dest: ./ssh_key
+- hosts: all
+  roles:
+    - role: configuration
+      tags:
+        - configuration
+    - role: installation
+      tags:
+        - installation
+- hosts: controlplane
+  roles:
+    - role: loadbalancer
+      tags:
+        - loadbalancer

@@ -1,0 +1,15 @@
+packages:
+  - apt_key:
+      id: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
+      url: https://download.docker.com/linux/ubuntu/gpg
+    apt_repository: "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
+    packages:
+      - docker-ce
+  - apt_key:
+      id: 59FE0256827269DC81578F928B57C5C2836F4BEB
+      url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    apt_repository: "deb http://packages.cloud.google.com/apt/ kubernetes-xenial main"
+    packages:
+      - kubelet
+      - kubeadm
+      - kubectl

@@ -1,0 +1,37 @@
+- name: "ensure keepalived and nginx is installed"
+  become: yes
+  ansible.builtin.apt:
+    name: 
+      - nginx
+      - keepalived
+    state: present
+
+- name: Ensure nginx.conf exists
+  become: yes
+  ansible.builtin.template:
+    src: templates/nginx.conf
+    dest: /etc/nginx/nginx.conf
+
+- name: Ensure keepalived.conf exists
+  become: yes
+  ansible.builtin.template:
+    src: templates/keepalived.conf
+    dest: /etc/keepalived/keepalived.conf
+
+- name: Ensure checkapiserver.sh exists
+  become: yes
+  ansible.builtin.template:
+    src: templates/check_apiserver.sh
+    dest: /etc/keepalived/check_apiserver.sh
+
+- name: Ensure nginx is restarted
+  become: yes
+  ansible.builtin.systemd:
+    state: restarted
+    name: nginx
+
+- name: Ensure keepalived is restarted
+  become: yes
+  ansible.builtin.systemd:
+    state: restarted
+    name:  keepalived
