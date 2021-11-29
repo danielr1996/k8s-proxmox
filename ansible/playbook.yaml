@@ -13,6 +13,11 @@
     - role: installation
       tags:
         - installation
+- hosts: worker
+  roles:
+    - role: storage
+      tags: 
+        - storage
 - hosts: controlplane
   roles:
     - role: loadbalancer

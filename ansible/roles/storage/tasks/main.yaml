@@ -1,0 +1,6 @@
+- name: "ensure nfs-common is installed"
+  become: yes
+  ansible.builtin.apt:
+    name: 
+      - nfs-common
+    state: present
