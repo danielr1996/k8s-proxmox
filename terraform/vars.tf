@@ -61,7 +61,7 @@ variable "controlplane_cores" {
 }
 variable "controlplane_memory" {
     description = "Amount of memory for controlplane node"
-    default=3072
+    default=2048
     type = number
 }
 variable "worker_count" {
@@ -76,6 +76,6 @@ variable "worker_cores" {
 }
 variable "worker_memory" {
     description = "Amount of memory for worker node"
-    default=4096
+    default=3072
     type = number
 }

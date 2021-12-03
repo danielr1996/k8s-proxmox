@@ -4,8 +4,9 @@ variable "cores" {}
 variable "memory" {}
 variable "template" {}
 variable "user" {}
-variable "groups" {}
-variable "ha_priority" {default = 0}
+variable "type" {}
+
+variable "countIndex" {}
 variable "pm_target_node" {}
 
 resource "proxmox_vm_qemu" "k8s-node" {
@@ -42,11 +43,11 @@ resource "ansible_host" "k8s-node" {
         ansible_user = var.user
         ansible_ssh_private_key_file: "ssh_key"
     }
-    groups = var.groups
+    groups = concat([var.type], ["${var.type}-${var.countIndex == 0 ? "first" : "rest"}"])
 }
 
 resource "ansible_host_var" "k8s-node" {
   inventory_hostname = var.name
-  key = "ha_priority"
-  value = var.ha_priority
+  key = "countIndex"
+  value = var.countIndex
 }
