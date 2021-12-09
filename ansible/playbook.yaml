@@ -23,3 +23,33 @@
     - role: loadbalancer
       tags:
         - loadbalancer
+- hosts: controlplane-first
+  roles:
+    - role: kubeadm-init
+      tags:
+        - kubeadm
+        - kubeadm-init
+- hosts: controlplane-rest
+  roles:
+    - role: kubeadm-join-master
+      tags:
+        - kubeadm
+        - kubeadm-join
+- hosts: worker
+  roles:
+    - role: kubeadm-join-worker
+      tags:
+        - kubeadm
+        - kubeadm-join
+- hosts: controlplane-first
+  roles:
+    - role: argocd
+      tags: 
+        - never
+        - bootstrap
+- hosts: all
+  roles:
+    - role: reset
+      tags:
+        - never
+        - reset

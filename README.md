@@ -1,8 +1,6 @@
 # kubernetes-proxmox
 Combination of terraform and ansible scripts to automatically provision a highly available kubernetes cluster on Proxmox VE
 
-> This is still a work a progress, currently vms can be automatically created and provisioned through terraform, however the `kubeadm init` and `kubeadm join` commands need to be executed manually
-
 > Audience: This is not a turnkey solution to setup a kubernetes cluster nor should it be used as production deployment. While most aspects are automated and most decisions are already made for you it might still me necessary to adjust the settings depending on your specific environment. Therefore knowledge on how to use `terraform`, `ansible` and `kubeadm` is not strictly required but highly recommended. Refers to the links at the bottom for additional resources.
 
 ## Usage
@@ -37,19 +35,27 @@ For ansible make sure to include the terraform inventory script and specify your
 ANSIBLE_TF_DIR=../terraform ansible-playbook -i terraform.py playbook.yaml 
 ```
 
-## Installing kubernetes with kubeadm
-> This should be moved to ansible, but for now you need to execute these steps manually. 
+## Next steps
+Now you have a running kubernetes cluster ready to receive workloads, however you might want to install additional software for a bare metal setup:
 
-Login to your first controlplane node and run kubeadm. Depending on your situation you might supply additional arguments to kubeadm, the option your are most likely to need is `--pod-network-cidr`, depending on your CNI. This guide uses [weave](https://www.weave.works/docs/net/latest/kubernetes/kube-addon/) which works with the default. For a comprehensive list of arguments refer to the [kubadm documentation](https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm-init/).
+* metallb: depending on your infrastructure you might want to run metallb to assign a local ip to Services of type LoadBalancer
+* traefik: to easily expose Services under a DNS name
+* storage: install a supported storage driver to enable persistent volumes
+* argocd: install apps with a gitops workflow
 
+To do so run `ansible-playbook playbook.yaml --tags=bootstrap`
+
+### traefik
+> Currently traefik is configured to use Hetzner, specify your token with the following command:
 ```
-sudo kubeadm init \
-    --control-plane-endpoint=10.0.100.1:6443 \ 
-    --upload-certs \
-    --apiserver-bind-port=8443
+kubectl create secret generic hetzner-api-token -ninfra --from-literal=token=<token> 
 ```
 
-To join your remaining controlplane and worker nodes follow the steps printed by `kubeadm init`.
+### argocd
+```
+kubectl port-forward svc/argocd-server -n argocd 8080:443
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d && echo
+```
 
 ## Useful resources
 This a list of additional documentation I used and useful commands for debugging

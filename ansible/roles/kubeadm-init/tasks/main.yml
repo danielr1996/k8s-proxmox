@@ -1,0 +1,46 @@
+- name: Initialize kubeadm master nodes
+  shell: >
+    sudo kubeadm init \
+    --control-plane-endpoint=10.0.100.1:6443 \ 
+    --upload-certs \
+    --apiserver-bind-port=8443
+    >> cluster_initialized.txt
+  args:
+    chdir: $HOME
+    creates: cluster_initialized.txt
+  register: init
+
+- name: ensure kubeconfig directory exists
+  ansible.builtin.file:
+    dest: ~/.kube
+    state: directory
+
+- name: copy kubeconfig to ~/.kube/config
+  become: yes
+  ansible.builtin.copy:
+    src: /etc/kubernetes/admin.conf
+    dest: ~ubuntu/.kube/config
+    remote_src: yes
+
+- name: fetch ~/.kube/config
+  become: yes
+  ansible.builtin.fetch:
+    src: /etc/kubernetes/admin.conf
+    dest: ~/.kube/config
+    flat: yes
+
+- name: Install pod network
+  shell: kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')" >> pod_network_created.txt
+  args:
+    chdir: $HOME
+    creates: pod_network_created.txt
+
+- name: get controlplane join command
+  shell: echo $(kubeadm token create --print-join-command) --control-plane --certificate-key=$(sudo kubeadm init phase upload-certs --upload-certs | tail -1)
+  register: controlplane_join_command_raw
+  when: init.changed
+
+- name: get worker join command
+  shell: kubeadm token create --print-join-command
+  register: worker_join_command_raw
+  when: init.changed

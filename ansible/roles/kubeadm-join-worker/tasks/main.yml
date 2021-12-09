@@ -1,0 +1,7 @@
+- name: join kubeadm controlplane nodes
+  become: yes
+  shell: "{{hostvars[groups['controlplane'][0]].worker_join_command_raw.stdout}} --apiserver-bind-port=8443 >> cluster_initialized.txt"
+  args:
+    chdir: $HOME
+    creates: cluster_initialized.txt
+  when: hostvars[groups['controlplane'][0]].init.changed

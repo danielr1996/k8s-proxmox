@@ -1,0 +1,3 @@
+- name: reset nodes
+  become: yes
+  shell: kubeadm reset -f
