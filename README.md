@@ -1,7 +1,7 @@
 # kubernetes-proxmox
 Combination of terraform and ansible scripts to automatically provision a highly available kubernetes cluster on Proxmox VE
 
-> Audience: This is not a turnkey solution to setup a kubernetes cluster nor should it be used as production deployment. While most aspects are automated and most decisions are already made for you it might still me necessary to adjust the settings depending on your specific environment. Therefore knowledge on how to use `terraform`, `ansible` and `kubeadm` is not strictly required but highly recommended. Refers to the links at the bottom for additional resources.
+> Audience: This is not a turnkey solution to setup a kubernetes cluster nor should it be used as production deployment. While most aspects are automated and most decisions are already made for you it might still be necessary to adjust the settings depending on your specific environment. Therefore knowledge on how to use `terraform`, `ansible` and `kubeadm` is not strictly required but highly recommended. Refers to the links at the bottom for additional resources.
 
 ## Usage
 For a batteries included solution a `Vagrantfile` is included which has terraform and ansible installed and configured. 
